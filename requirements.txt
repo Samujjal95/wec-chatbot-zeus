@@ -3,3 +3,4 @@ langchain
 faiss-cpu
 openai
 tiktoken
+gunicorn
