@@ -15,7 +15,7 @@ CORS(app)
 base_path = r"C:\Users\WEC India\OneDrive - World Energy Council India\samujjal\OneDrive - World Energy Council India\Desktop\SAMUJJAL WORK\CHATBOT -WEC\WORLD ENERGY COUNCIL INDIA CHAT_BOT_ZEUS"
 pdf_folder = os.path.join(base_path, "WEC_INDIA DATABASE - storage")
 excel_folder = r"C:\Users\WEC India\OneDrive - World Energy Council India\samujjal\OneDrive - World Energy Council India\Desktop\SAMUJJAL WORK\CHATBOT -WEC\wec_chatbot\data\dashboard_exports"
-VECTORSTORE_DIR = os.path.join(base_path, "faiss_index")
+VECTORSTORE_DIR = "faiss_index"
 
 for var in ["OPENAI_API_BASE", "OPENAI_BASE_URL", "OPENAI_API_BASE_URL"]:
     os.environ.pop(var, None)
