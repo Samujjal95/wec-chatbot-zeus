@@ -1,6 +1,3 @@
-# --- Vector DB ---
-faiss_index/
-
 # --- PDFs ---
 WEC_INDIA DATABASE - storage/
 embedded_pdfs/
