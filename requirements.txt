@@ -1,0 +1,5 @@
+flask
+langchain
+faiss-cpu
+openai
+tiktoken

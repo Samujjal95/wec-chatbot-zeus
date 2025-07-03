@@ -1,0 +1,21 @@
+# --- Vector DB ---
+faiss_index/
+
+# --- PDFs ---
+WEC_INDIA DATABASE - storage/
+embedded_pdfs/
+
+# --- Excel files ---
+dashboard_exports/
+
+# --- Python cache ---
+__pycache__/
+*.pyc
+
+# --- Environment & secrets ---
+.env
+*.env
+
+# --- OS-generated files ---
+.DS_Store
+Thumbs.db

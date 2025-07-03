@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZEUS - WEC Chatbot</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;  /* light grey background for the whole page */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    header {
+      background-color: #d3d3d3; /* light grey */
+      color: #1b1f3b; /* dark blue text */
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-title {
+      /* nothing extra needed, text color inherited from header */
+    }
+
+    .header-logo {
+      height: 40px;
+      width: auto;
+    }
+
+    /* Chat area styling like ChatGPT */
+    #chat-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      background-color: #343541; /* ChatGPT dark background */
+      color: #d7dadc; /* light text */
+    }
+
+    /* Chat message bubbles */
+    .user-msg, .bot-msg {
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      max-width: 80%;
+      white-space: pre-wrap;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .user-msg {
+      background-color: #005999; /* ChatGPT blue bubble */
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot-msg {
+      background-color: #444654; /* ChatGPT bot bubble */
+      color: #d7dadc;
+      align-self: flex-start;
+    }
+
+    /* Input form area with ChatGPT style */
+    #input-form {
+      display: flex;
+      padding: 1rem 2rem;
+      border-top: 1px solid #444654;
+      background-color: #40414f;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: #303136;
+      color: #d7dadc;
+      outline: none;
+    }
+
+    #user-input::placeholder {
+      color: #888;
+    }
+
+    button {
+      padding: 0.8rem 1.2rem;
+      background-color: #10a37f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 1rem;
+      transition: background-color 0.2s ease;
+    }
+
+    button:hover:not(:disabled) {
+      background-color: #0e8c6f;
+    }
+
+    button:disabled {
+      background-color: #3a6659;
+      cursor: wait;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title">🤖 ZEUS – WEC India Chatbot</div>
+    <img src="/static/wec-logo.png" alt="WEC Logo" class="header-logo">
+  </header>
+
+  <div id="chat-container"></div>
+
+  <form id="input-form">
+    <input type="text" id="user-input" placeholder="Ask a question..." autocomplete="off" required />
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const form = document.getElementById("input-form");
+    const input = document.getElementById("user-input");
+    const chat = document.getElementById("chat-container");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const question = input.value.trim();
+      if (!question) return;
+
+      addMessage(question, "user-msg");
+      input.value = "";
+      form.querySelector("button").disabled = true;
+
+      try {
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        const data = await res.json();
+        addMessage(data.answer || "⚠️ No response", "bot-msg");
+      } catch (err) {
+        addMessage("⚠️ Error connecting to server.", "bot-msg");
+      }
+
+      form.querySelector("button").disabled = false;
+    });
+
+    function addMessage(text, className) {
+      const div = document.createElement("div");
+      div.className = className;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
