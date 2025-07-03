@@ -6,3 +6,4 @@ tiktoken
 gunicorn
 python-dotenv
 flask-cors
+langchain-community
